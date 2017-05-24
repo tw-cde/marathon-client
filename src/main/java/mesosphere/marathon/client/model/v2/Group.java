@@ -1,6 +1,7 @@
 package mesosphere.marathon.client.model.v2;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import mesosphere.client.common.ModelUtils;
 
@@ -13,7 +14,18 @@ public class Group {
 
 	public Group() {
 	}
-	
+
+	public Optional<App> findAppByName(String name) {
+		for (App app : apps) {
+			final String[] split = app.getId().split("/");
+			String appName = split[split.length - 1];
+			if (appName.equals(name)) {
+				return Optional.of(app);
+			}
+		}
+		return Optional.empty();
+	}
+
 	public Group(String id) {
 		this.id = id;
 	}
